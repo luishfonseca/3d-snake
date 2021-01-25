@@ -1,9 +1,9 @@
 extends Spatial
 
-const normal_interval = 0.8
 const fast_interval = 0.3
 const bounds_radius = 12
 
+var normal_interval = 0.8
 var timer = 0
 var interval = normal_interval
 var over = false
@@ -48,5 +48,6 @@ func _on_Snake_collision():
 
 
 func _on_Snake_apple_eaten():
+    normal_interval = normal_interval * 0.9 + fast_interval * 0.1
     $Apple.new_position()
     $Snake.apple_position = $Apple.translation
