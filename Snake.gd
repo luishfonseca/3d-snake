@@ -37,7 +37,7 @@ func reset():
     $View.fov = 80
     $View.translation = Vector3.ZERO
     for p in $Tail.get_children():
-        p.queue_free()
+        p.free()
     generate_mesh()
 
 func set_fast_camera(is_fast):

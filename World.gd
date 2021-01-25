@@ -1,9 +1,10 @@
 extends Spatial
 
-const fast_interval = 0.3
+const original_interval = 0.8
+const fast_interval = 0.25
 const bounds_radius = 12
 
-var normal_interval = 0.8
+var normal_interval = original_interval
 var timer = 0
 var interval = normal_interval
 var over = false
@@ -26,7 +27,7 @@ func _input(event):
     if over:
         if event.is_action_pressed('ui_accept'):
             $Snake.reset()
-            interval = normal_interval
+            interval = original_interval
             timer = 0
             $Camera.current = false
             over = false
@@ -45,7 +46,6 @@ func _on_Snake_collision():
     over = true
     $TextBox.visible = true
     $Camera.current = true
-
 
 func _on_Snake_apple_eaten(occupied_positions):
     normal_interval = normal_interval * 0.9 + fast_interval * 0.1
