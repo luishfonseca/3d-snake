@@ -21,7 +21,6 @@ func _unhandled_input(event):
         if last_forward.is_equal_approx(-$Head.transform.basis.z):
             if $Tail.get_child_count() != 0:
                 $Head.transform.basis *= Basis(Vector3(1, 0, 0), PI/2)
-                # TODO: Shake Shader to flag illegal move
         $Head.transform.basis = $Head.transform.basis.orthonormalized()
         $View.move()
     elif event.is_action_pressed("ui_up"):
@@ -29,9 +28,23 @@ func _unhandled_input(event):
         if last_forward.is_equal_approx(-$Head.transform.basis.z):
             if $Tail.get_child_count() != 0:
                 $Head.transform.basis *= Basis(Vector3(1, 0, 0), -PI/2)
-                # TODO: Shake Shader to flag illegal move
         $Head.transform.basis = $Head.transform.basis.orthonormalized()
         $View.move()
+
+func reset():
+    $Head.translation = Vector3.ZERO
+    $View.weight = 0
+    $View.fov = 80
+    $View.translation = Vector3.ZERO
+    for p in $Tail.get_children():
+        p.queue_free()
+    generate_mesh()
+
+func set_fast_camera(is_fast):
+    if is_fast:
+        $View.fov = 50
+    else:
+        $View.fov = 80
 
 func move():
     var last = $Tail.get_child_count() - 1
@@ -68,7 +81,7 @@ func collides_with_self():
 
 func collides_with_bounds():
     var r = get_parent().bounds_radius
-    var v = $Head.translation.abs()
+    var v = $Head.translation.abs().round()
     return v.x > r or v.y > r or v.z > r
 
 func generate_mesh():
