@@ -61,7 +61,7 @@ func move():
         var p = Spatial.new()
         p.translation = old_tail_end
         $Tail.add_child(p)
-        emit_signal('apple_eaten')
+        emit_signal('apple_eaten', $Tail.get_children())
 
     if collides_with_self() or collides_with_bounds():
         $Head.translate(Vector3.BACK)

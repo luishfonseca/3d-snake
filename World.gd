@@ -47,7 +47,7 @@ func _on_Snake_collision():
     $Camera.current = true
 
 
-func _on_Snake_apple_eaten():
+func _on_Snake_apple_eaten(occupied_positions):
     normal_interval = normal_interval * 0.9 + fast_interval * 0.1
-    $Apple.new_position()
+    $Apple.new_position(occupied_positions)
     $Snake.apple_position = $Apple.translation
